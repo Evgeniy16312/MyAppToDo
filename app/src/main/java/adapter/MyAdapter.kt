@@ -32,6 +32,7 @@ class MyAdapter(private val todoList: ArrayList<Todo>) :
                 listener!!.onItemDelete(todo)
             }
         })
+
     }
 
     override fun getItemCount(): Int {
@@ -44,7 +45,7 @@ class MyAdapter(private val todoList: ArrayList<Todo>) :
         )
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindItems(todo: Todo) {
             val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
             val tvDesc = itemView.findViewById<TextView>(R.id.tvDesc)
@@ -52,6 +53,28 @@ class MyAdapter(private val todoList: ArrayList<Todo>) :
             tvTitle.text = todo.title
             tvDesc.text = todo.desc
             tvTimestamp.text = todo.timestamp
+
+            itemView.btDown.setOnClickListener { moveDown() }
+            itemView.btUp.setOnClickListener { moveUp() }
+        }
+
+
+        private fun moveUp() {
+            layoutPosition.takeIf { it > 1 }?.also { currentPosition ->
+                todoList.removeAt(currentPosition).apply {
+                    todoList.add(currentPosition - 1, this)
+                }
+                notifyItemMoved(currentPosition, currentPosition - 1)
+            }
+        }
+
+        private fun moveDown() {
+            layoutPosition.takeIf { it < todoList.size - 1 }?.also { currentPosition ->
+                todoList.removeAt(currentPosition).apply {
+                    todoList.add(currentPosition + 1, this)
+                }
+                notifyItemMoved(currentPosition, currentPosition + 1)
+            }
         }
     }
 

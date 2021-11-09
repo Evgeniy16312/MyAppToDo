@@ -97,10 +97,6 @@ class ScrollingActivity : AppCompatActivity(), MyAdapter.OnClickListener {
         alertDialog.show()
     }
 
-    /**
-     * Shows alert dialog with EditText options to enter / edit  a note.
-     * when shouldUpdate=true, it automatically displays old note and changes the  button text to UPDATE
-     */
     private fun showNoteDialog(shouldUpdate: Boolean, todo: Todo?, position: Int) {
         val view = LayoutInflater.from(applicationContext).inflate(R.layout.add_todo, null)
 
@@ -149,9 +145,6 @@ class ScrollingActivity : AppCompatActivity(), MyAdapter.OnClickListener {
         alertDialogView.show()
     }
 
-    /**
-     * Inserting new note in db and refreshing the list
-     */
     @SuppressLint("NotifyDataSetChanged")
     private fun createNote(todo: Todo) {
         val id =
@@ -161,9 +154,6 @@ class ScrollingActivity : AppCompatActivity(), MyAdapter.OnClickListener {
         myAdapter!!.notifyDataSetChanged()  // refreshing the list
     }
 
-    /**
-     * Updating note in db and updating item in the list by its position
-     */
     private fun updateNote(t: Todo, position: Int) {
         val todo = todoList[position]
         todo.title = t.title    // updating title
